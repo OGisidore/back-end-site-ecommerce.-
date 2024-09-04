@@ -1,6 +1,8 @@
 const fs = require("fs");
 const userModel = require("../models/user.model");
 const bcrypt = require('bcrypt')
+var jwt = require('jsonwebtoken');
+
 
 module.exports = {
   
@@ -87,7 +89,13 @@ module.exports = {
         }
         return res.status(200).json({
           userId : user._id,
-          token : jsonweb
+          token : jwt.sign(
+            {
+              userId : user._id 
+            },
+            'SECRET',
+            {expiresIn : '24h'}
+          )
         })
 
       })
