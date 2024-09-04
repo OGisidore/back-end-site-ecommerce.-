@@ -68,5 +68,37 @@ module.exports = {
       }
     })
 
+  },
+  loginUser : (req,res)=>{
+    try {
+      const user = userModel.findOne({email : req.body.email})
+      bcrypt.compare(req.body.password , user.password, (err, valid)=>{
+        if(err){
+          return res.status(500).json({
+            status : 500,
+            message : err.message
+          })
+        }
+        if(!valid){
+          return res.status(404).json({
+            status : 404,
+            message : "Bad password"
+          })
+        }
+        return res.status(200).json({
+          userId : user._id,
+          token : jsonweb
+        })
+
+      })
+
+    } catch (error) {
+      return res.status(404).json({
+        status : 404,
+        message : "user not found"
+      })
+      
+    }
+
   }
 }
