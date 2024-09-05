@@ -10,7 +10,9 @@ const dotenv = require('dotenv').config()
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var productRouter = require("./routes/product.route")
+var postRouter = require("./routes/post.route")
 var userRouter = require("./routes/user.route")
+var categoryRouter = require("./routes/category.route")
 
 
 var app = express();
@@ -60,7 +62,10 @@ app.listen(3000, () => {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/products', productRouter)
+app.use('/api/posts', postRouter)
 app.use('/api/users', userRouter)
+app.use('/api/categories', categoryRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,7 +81,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.json({
-    'error' : err.message
+    'error' : err.message                 
   })
 });
 
