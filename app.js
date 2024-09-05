@@ -35,6 +35,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
+app.get('/', (req, res) => {
+  res.send('CORS is configured manually!');
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/products', productRouter)
@@ -53,7 +75,9 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.json({
+    'error' : err.message
+  })
 });
 
 module.exports = app;

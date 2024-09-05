@@ -71,9 +71,15 @@ module.exports = {
     })
 
   },
-  loginUser : (req,res)=>{
+  loginUser : async(req,res)=>{
     try {
-      const user = userModel.findOne({email : req.body.email})
+      const user = await userModel.findOne({email : req.body.email})
+      if(!user){
+        return res.status(404).json({
+          status : 4040,
+          message : "user not found"
+        })
+      }
       bcrypt.compare(req.body.password , user.password, (err, valid)=>{
         if(err){
           return res.status(500).json({
@@ -93,7 +99,7 @@ module.exports = {
             {
               userId : user._id 
             },
-            'SECRET',
+            process.env.TOKEN_SECRET,
             {expiresIn : '24h'}
           )
         })
@@ -101,9 +107,9 @@ module.exports = {
       })
 
     } catch (error) {
-      return res.status(404).json({
-        status : 404,
-        message : "user not found"
+      return res.status(500).json({
+        status : 500,
+        message : error.message
       })
       
     }

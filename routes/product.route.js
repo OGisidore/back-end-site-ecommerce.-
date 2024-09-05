@@ -1,12 +1,13 @@
 var express = require('express');
 const productControler = require('../controler/product.controler');
-const ProductImageUpload = require('../middlewares/multer.config')
+const ProductImageUpload = require('../middlewares/multer.config');
+const guard = require('../middlewares/guard');
 var router = express.Router();
 
 
-router.get("/", productControler.listProduct)
-router.get('/:id', productControler.listProductById)
-router.post("/", ProductImageUpload,  productControler.createProduct)
-router.put("/:id", ProductImageUpload, productControler.updateProduct)
-router.delete("/:id",  productControler.removeProduct)
+router.get("/", guard, productControler.listProduct)
+router.get('/:id',guard, productControler.listProductById)
+router.post("/", ProductImageUpload, guard, productControler.createProduct)
+router.put("/:id", ProductImageUpload, guard, productControler.updateProduct)
+router.delete("/:id", guard, productControler.removeProduct)
 module.exports = router;
