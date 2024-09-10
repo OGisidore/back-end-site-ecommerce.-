@@ -7,7 +7,8 @@ var router = express.Router();
 
 router.get("/", guard, productControler.listProduct)
 router.get('/:id',guard, productControler.listProductById)
-router.post("/", ProductImageUpload, guard, productControler.createProduct)
+router.post("/", ProductImageUpload, productControler.createProduct)
 router.put("/:id", ProductImageUpload, guard, productControler.updateProduct)
 router.delete("/:id", guard, productControler.removeProduct)
 module.exports = router;
+ 

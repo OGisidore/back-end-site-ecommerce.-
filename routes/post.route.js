@@ -5,10 +5,10 @@ const guard = require('../middlewares/guard');
 var router = express.Router();
 
 
-router.get("/", guard, postControler.listPost)
-router.get("/latest", guard, postControler.getLatestPost)
-router.get('/:id',guard, postControler.listPostById)
-router.post("/", postImageUpload, guard, postControler.createPost)
-router.put("/:id", postImageUpload, guard, postControler.updatePost)
-router.delete("/:id", guard, postControler.removePost)
+router.get("/", postControler.listPost)
+router.get("/latest", postControler.getLatestPost)
+router.get('/:id', postControler.listPostById)
+router.post("/", postImageUpload, postControler.createPost)
+router.put("/:id", postImageUpload,  postControler.updatePost)
+router.delete("/:id", postControler.removePost)
 module.exports = router;

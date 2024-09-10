@@ -41,15 +41,17 @@ module.exports = {
   },
 
   createProduct: async (req, res) => {
+    console.log(req.body);
+    
     if(!req.file){
       return res.status(500).json({
         status: 500,
         message: " Product image is required",
-        error: error,
+        // error: error,
       });
     }
-    const Product = JSON.parse(req.body.product)
-    delete Product._id;
+    // const Product = JSON.parse(req.body.product)
+    // delete Product._id;
     var product = new productModel({
       ...req.body,
       image : `${req.protocol}://${req.get("host")}/images/products/${req.file.filename}`
