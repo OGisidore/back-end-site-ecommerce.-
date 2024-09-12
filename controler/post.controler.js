@@ -58,6 +58,35 @@ module.exports = {
       });
     }
   },
+  listPostUserId: async (req, res) => {
+    const id = req.params.id;
+    console.log(id);
+    
+    try {
+      // const post = await postModel.findMany({ userId: id });
+      const post = await postModel.find({userId : id});
+
+      if (!post) {
+        return res.status(404).json({
+          status: 404,
+          message: "No such post",
+        });
+      }
+      return res.status(201).json({
+        status: 201,
+        posts: post,
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        status: 500,
+        message: "error while getting post",
+        error: error.message,
+      });
+      
+      
+    }
+  },
 
   createPost: async (req, res) => {
     if (!req.file) {

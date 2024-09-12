@@ -43,8 +43,10 @@ module.exports = {
     }
   },
   signupUser : async (req ,res)=>{
+    console.log(req.body)
 
     bcrypt.hash(req.body.password, 10 , async (err, hash)=>{
+      console.log(req.body)
         
       if(err){
         return res.status(500).json({
@@ -52,10 +54,13 @@ module.exports = {
           message : err.message
         })
       }
+      console.log(req.body)
       const newUser = new userModel({
-        email : req.body.email,
+        ...req.body,
         password : hash
       })
+      console.log(newUser);
+      
       const user = await newUser.save()
       if(user){
         return res.status(201).json({
@@ -76,7 +81,7 @@ module.exports = {
       const user = await userModel.findOne({email : req.body.email})
       if(!user){
         return res.status(404).json({
-          status : 4040,
+          status : 404,
           message : "user not found"
         })
       }
@@ -94,14 +99,17 @@ module.exports = {
           })
         }
         return res.status(200).json({
+          isSuccess : true,
           userId : user._id,
           token : jwt.sign(
             {
               userId : user._id 
             },
             process.env.TOKEN_SECRET,
-            {expiresIn : '24h'}
-          )
+            {expiresIn : '1h'}
+          ),
+          expire : 3600000  
+          // 86400000
         })
 
       })
