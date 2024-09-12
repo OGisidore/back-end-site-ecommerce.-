@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const mongooseUniqueValidator = require('mongoose-unique-validator');
 
 
+
 const { Schema } = mongoose;
 
  var userSchema = new Schema({
@@ -11,6 +12,8 @@ const { Schema } = mongoose;
     "email" :{type : String, required : true, unique : false},
     "password" :{type : String, required : true},
     "avatar" : {type : String, required : false}, 
+    "resetCode": { type: String, required : false },
+    "resetCodeExpiration": { type: Date, required : false  },
     "createdAt" : {type : Date , default: Date.now},
  })
 
