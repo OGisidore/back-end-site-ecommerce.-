@@ -16,7 +16,7 @@ module.exports = {
       });
     }
   },
-  getLatestPost: async (resq, res) => {
+  getLatestPost: async (req, res) => {
     try {
       const latestpost = await postModel.findOne().sort({ publishedAt: -1 });
       if (!latestpost) {

@@ -146,7 +146,6 @@ module.exports = {
     const { email } = req.body;
     try {
       const user = await userModel.findOne({ email });
-      console.log(user);
       
       if (!user) {
         return res.status(422).json({
@@ -216,19 +215,15 @@ module.exports = {
       // Vérifier le token JWT
       var user;
       if(email){
-        console.log("yes");
         
          user = await userModel.findOne({email});
-         console.log(user);
          
       } 
       if(token){
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
       const userId = decoded.userId;
-      console.log(userId);
       
        user = await userModel.findOne({_id : userId});
-       console.log(user);
        
       }
       
